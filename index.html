@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV Sensor Data Communication using TDM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>EV Sensor Data Communication using TDM</h1>
+    <p>Five EV sensors share one channel. The MUX gives each a fixed time slot in every frame, and the DEMUX uses the slot ID to rebuild each reading.</p>
+  </div>
+  <span id="status" class="status">Stopped</span>
+</header>
+
+<section class="bar">
+  <button id="btnRun" class="primary">Start</button>
+  <button id="btnOne">Send one frame</button>
+  <button id="btnReset">Reset</button>
+  <label>Mode <select id="mode"><option value="auto">Automatic</option><option value="manual">Manual</option></select></label>
+  <label>Slot time <b id="speedTxt">500</b> ms <input id="speed" type="range" min="200" max="1500" step="100" value="500"></label>
+  <label class="check"><input id="loss" type="checkbox"> Simulate lost slots</label>
+  <p id="msg" role="alert"></p>
+</section>
+
+<main>
+  <section class="card"><h2>Transmitter: sensors</h2><div id="tx"></div>
+    <p class="hint">Manual mode: type values in the boxes, then send a frame.</p></section>
+
+  <section class="card"><h2>MUX → shared channel → DEMUX</h2>
+    <div class="chan"><span class="end">MUX</span><div id="slots" class="slots"></div><span class="end">DEMUX</span></div>
+    <p id="frameInfo" class="hint">No frame sent yet</p>
+    <p>Result: <b id="result" class="pill">—</b></p>
+    <h3>Recent frames</h3>
+    <table><thead><tr><th>Frame</th><th>Lost slots</th><th>Result</th></tr></thead><tbody id="hist"></tbody></table>
+  </section>
+
+  <section class="card"><h2>Receiver: demultiplexed</h2><div id="rx"></div></section>
+</main>
+
+<footer>Educational simulation. Sensor values are simulated and the channel is a software model. Real EVs mostly use CAN, LIN or Automotive Ethernet.</footer>
+<script src="script.js"></script>
+</body>
+</html>
